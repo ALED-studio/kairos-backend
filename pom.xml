@@ -30,6 +30,7 @@
 		<java.version>25</java.version>
 		<sentry.version>8.27.0</sentry.version>
 		<log4j-api.version>2.25.3</log4j-api.version>
+		<sentry.auth.token>${env.SENTRY_AUTH_TOKEN}</sentry.auth.token>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -164,6 +165,11 @@
 			<artifactId>spring-boot-starter-log4j2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.sentry</groupId>
+			<artifactId>sentry-async-profiler</artifactId>
+			<version>8.37.1</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -210,6 +216,25 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>io.sentry</groupId>
+				<artifactId>sentry-maven-plugin</artifactId>
+				<version>0.11.0</version>
+				<extensions>true</extensions>
+				<configuration>
+					<debugSentryCli>true</debugSentryCli>
+					<org>aled-studio</org>
+					<project>kairos-backend</project>
+					<authToken>${sentry.auth.token}</authToken>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>uploadSourceBundle</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
