@@ -170,6 +170,11 @@
 			<artifactId>sentry-async-profiler</artifactId>
 			<version>8.37.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.bucket4j</groupId>
+			<artifactId>bucket4j_jdk17-core</artifactId>
+			<version>8.17.0</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
