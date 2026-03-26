@@ -14,3 +14,7 @@ services:
       - 'RABBITMQ_DEFAULT_USER=myuser'
     ports:
       - '5672'
+  redis:
+    image: 'redis:latest'
+    ports:
+      - '6379'
