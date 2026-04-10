@@ -4,9 +4,18 @@ spring:
   docker:
     compose:
       enable: false
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: none
 
 sentry:
-  dsn: https://ead6296fb66dda3a972bbdfd5ef73081@o4511111079002112.ingest.de.sentry.io/4511111082147920
+  enabled: true
+  environment: production
+  dsn: ${SENTRY_DSN_URL}
   send-default-pii: true
   logs:
     enabled: true
