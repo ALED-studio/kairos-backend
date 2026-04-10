@@ -4,12 +4,10 @@ spring:
   docker:
     compose:
       enable: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kairosdb
+    username: admin
+    password: password
 
 sentry:
-  dsn: https://ead6296fb66dda3a972bbdfd5ef73081@o4511111079002112.ingest.de.sentry.io/4511111082147920
-  send-default-pii: true
-  logs:
-    enabled: true
-  traces-sample-rate: 1.0
-  profile-session-sample-rate: 1.0
-  profile-lifecycle: TRACE
+  enabled: false
