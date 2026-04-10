@@ -1,6 +1,10 @@
 spring:
   application:
     name: kairos
+  docker:
+    compose:
+      enable: false
+
 sentry:
   dsn: https://ead6296fb66dda3a972bbdfd5ef73081@o4511111079002112.ingest.de.sentry.io/4511111082147920
   send-default-pii: true
