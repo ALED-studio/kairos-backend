@@ -28,7 +28,9 @@
 	</scm>
 	<properties>
 		<java.version>25</java.version>
+		<sentry.version>8.37.1</sentry.version>
 		<log4j-api.version>2.25.3</log4j-api.version>
+		<sentry.auth.token>${env.SENTRY_AUTH_TOKEN}</sentry.auth.token>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -62,6 +64,14 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.sentry</groupId>
+			<artifactId>sentry-spring-boot-4</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.sentry</groupId>
+			<artifactId>sentry-log4j2</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
@@ -150,6 +160,11 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
+			<groupId>io.sentry</groupId>
+			<artifactId>sentry-async-profiler</artifactId>
+			<version>8.37.1</version>
+		</dependency>
+		<dependency>
 			<groupId>com.bucket4j</groupId>
 			<artifactId>bucket4j_jdk17-core</artifactId>
 			<version>8.17.0</version>
@@ -157,6 +172,13 @@
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>io.sentry</groupId>
+				<artifactId>sentry-bom</artifactId>
+				<version>${sentry.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
@@ -193,6 +215,25 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>io.sentry</groupId>
+				<artifactId>sentry-maven-plugin</artifactId>
+				<version>0.11.0</version>
+				<extensions>true</extensions>
+				<configuration>
+					<debugSentryCli>true</debugSentryCli>
+					<org>aled-studio</org>
+					<project>kairos-backend</project>
+					<authToken>${sentry.auth.token}</authToken>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>uploadSourceBundle</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
