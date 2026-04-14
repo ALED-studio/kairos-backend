@@ -1,3 +1,24 @@
 spring:
   application:
     name: kairos
+  docker:
+    compose:
+      enable: false
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+sentry:
+  enabled: true
+  environment: production
+  dsn: ${SENTRY_DSN_URL}
+  send-default-pii: true
+  logs:
+    enabled: true
+  traces-sample-rate: 1.0
+  profile-session-sample-rate: 1.0
+  profile-lifecycle: TRACE
