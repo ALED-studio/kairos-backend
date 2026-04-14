@@ -1,8 +1,6 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/aled-studio/kairos-backend:latest
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_URL: jdbc:postgresql://postgres:5432/kairosdb
@@ -14,9 +12,16 @@ services:
       REDIS_HOST: redis
       SENTRY_DSN: ${SENTRY_DSN}
       APP_VERSION: ${APP_VERSION}
-    ports:
-      - '8080:8080'
     restart: unless-stopped
+    networks:
+      - web
+      - internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kairos.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.kairos.entrypoints=websecure"
+      - "traefik.http.routers.kairos.tls.certresolver=letsencrypt"
+      - "traefik.http.services.kairos.loadbalancer.server.port=8080"
     depends_on:
       postgres:
         condition: service_healthy
@@ -34,6 +39,8 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: unless-stopped
+    networks:
+      - internal
     healthcheck:
       test: [ 'CMD-SHELL', 'pg_isready -U ${DB_USERNAME} -d kairosdb' ]
       interval: 10s
@@ -46,6 +53,8 @@ services:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
     restart: unless-stopped
+    networks:
+      - internal
     healthcheck:
       test: [ 'CMD', 'rabbitmq-diagnostics', 'ping' ]
       interval: 10s
@@ -55,11 +64,19 @@ services:
   redis:
     image: 'redis:8.0-alpine'
     restart: unless-stopped
+    networks:
+      - internal
     healthcheck:
       test: [ 'CMD', 'redis-cli', 'ping' ]
       interval: 10s
       timeout: 5s
       retries: 5
+
+networks:
+  web:
+    external: true
+  internal:
+    internal: true
 
 volumes:
   pgdata:
