@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: kairos
+  docker:
+    compose:
+      enable: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kairosdb
+    username: admin
+    password: password
+
+sentry:
+  enabled: false
