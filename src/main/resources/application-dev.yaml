@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: kairos
+  docker:
+    compose:
+      enable: false
+
+sentry:
+  enabled: false
