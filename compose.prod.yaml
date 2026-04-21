@@ -72,6 +72,9 @@ services:
       timeout: 5s
       retries: 5
 
+# networks config are specific for current vps
+# since we use traefik for reverse proxy
+# which is a separated container from this compose.yaml file
 networks:
   web:
     external: true
